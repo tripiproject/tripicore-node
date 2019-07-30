@@ -685,17 +685,17 @@ describe('Tripi Service', function() {
 			tripid.tryAllInterval = 1;
 			tripid.nodes.push({
 				client: {
-					getBlockchainInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getBlockchainInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getBlockchainInfo: sinon.stub().callsArg(0)
+					getBlockChainInfo: sinon.stub().callsArg(0)
 				}
 			});
 			tripid._tryAllClients(function(client, next) {
@@ -1439,15 +1439,15 @@ describe('Tripi Service', function() {
 					};
 				}
 			});
-			var getBlockchainInfo = sinon.stub().callsArgWith(0, null, info);
-			getBlockchainInfo.onCall(0).callsArgWith(0, { code: -1, message: 'Test error' });
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, null, info);
+			getBlockChainInfo.onCall(0).callsArgWith(0, { code: -1, message: 'Test error' });
 			var node = {
 				_reindex: true,
 				_reindexWait: 1,
 				_tipUpdateInterval: 1,
 				client: {
 					getBestBlockHash: getBestBlockHash,
-					getBlockchainInfo: getBlockchainInfo
+					getBlockChainInfo: getBlockChainInfo
 				}
 			};
 			tripid._checkSyncedAndSubscribeZmqEvents(node);
@@ -1455,7 +1455,7 @@ describe('Tripi Service', function() {
 				log.error.callCount.should.equal(2);
 				blockEvents.should.equal(11);
 				getBestBlockHash.callCount.should.equal(12);
-				getBlockchainInfo.callCount.should.equal(11);
+				getBlockChainInfo.callCount.should.equal(11);
 				tripid._updateTip.callCount.should.equal(11);
 				tripid._subscribeZmqEvents.callCount.should.equal(1);
 				done();
@@ -1502,18 +1502,18 @@ describe('Tripi Service', function() {
 					verificationprogress: 1.00
 				}
 			};
-			var getBlockchainInfo = sinon.stub().callsArgWith(0, null, info);
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, null, info);
 			var node = {
 				_tipUpdateInterval: 1,
 				client: {
 					getBestBlockHash: getBestBlockHash,
-					getBlockchainInfo: getBlockchainInfo
+					getBlockChainInfo: getBlockChainInfo
 				}
 			};
 			tripid._checkSyncedAndSubscribeZmqEvents(node);
 			setTimeout(function() {
 				getBestBlockHash.callCount.should.equal(1);
-				getBlockchainInfo.callCount.should.equal(1);
+				getBlockChainInfo.callCount.should.equal(1);
 				done();
 			}, 200);
 		});
@@ -1625,12 +1625,12 @@ describe('Tripi Service', function() {
 				_reindex: true,
 				_reindexWait: 1,
 				client: {
-					getBlockchainInfo: sinon.stub().callsArgWith(0, { code: -1, message: 'Test error' })
+					getBlockChainInfo: sinon.stub().callsArgWith(0, { code: -1, message: 'Test error' })
 				}
 			};
 			tripid._checkReindex(node, function(err) {
 				should.exist(err);
-				node.client.getBlockchainInfo.callCount.should.equal(1);
+				node.client.getBlockChainInfo.callCount.should.equal(1);
 				err.should.be.instanceof(errors.RPCError);
 				done();
 			});
@@ -1642,7 +1642,7 @@ describe('Tripi Service', function() {
 				_reindex: true,
 				_reindexWait: 10,
 				client: {
-					getBlockchainInfo: function(callback) {
+					getBlockChainInfo: function(callback) {
 						percent += 0.01;
 						callback(null, {
 							result: {
@@ -2352,36 +2352,36 @@ describe('Tripi Service', function() {
 	describe('#syncPercentage', function() {
 		it('will give rpc error', function(done) {
 			var tripid = new TripiService(baseConfig);
-			var getBlockchainInfo = sinon.stub().callsArgWith(0, { message: 'error', code: -1 });
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, { message: 'error', code: -1 });
 			tripid.nodes.push({
 				client: {
-					getBlockchainInfo: getBlockchainInfo
+					getBlockChainInfo: getBlockChainInfo
 				}
 			});
 			tripid.syncPercentage(function(err) {
 				should.exist(err);
-				tripid.nodes[0].client.getBlockchainInfo.callCount.should.equal(1);
+				tripid.nodes[0].client.getBlockChainInfo.callCount.should.equal(1);
 				err.should.be.an.instanceof(errors.RPCError);
 				done();
 			});
 		});
 		it('will call client getBlockChainInfo and give result', function(done) {
 			var tripid = new TripiService(baseConfig);
-			var getBlockchainInfo = sinon.stub().callsArgWith(0, null, {
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, null, {
 				result: {
 					verificationprogress: '0.983821387'
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getBlockchainInfo: getBlockchainInfo
+					getBlockChainInfo: getBlockChainInfo
 				}
 			});
 			tripid.syncPercentage(function(err, percentage) {
 				if (err) {
 					return done(err);
 				}
-				tripid.nodes[0].client.getBlockchainInfo.callCount.should.equal(1);
+				tripid.nodes[0].client.getBlockChainInfo.callCount.should.equal(1);
 				percentage.should.equal(98.3821387);
 				done();
 			});
