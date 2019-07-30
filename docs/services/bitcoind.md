@@ -89,7 +89,7 @@ node.services.tripid.syncPercentage(function(err, percent) {
 });
 
 // gives information about the chain including total number of blocks
-node.services.tripid.getInfo(function(err, info) {
+node.services.tripid.getBlockchainInfo(function(err, info) {
   //...
 });
 ```

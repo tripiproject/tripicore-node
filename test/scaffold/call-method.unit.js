@@ -32,7 +32,7 @@ describe('#callMethod', function() {
   });
 
   it('handle a connection error', function(done) {
-    var socket = callMethod(callOptions, 'getInfo', null, function(err) {
+    var socket = callMethod(callOptions, 'getBlockChainInfo', null, function(err) {
       should.exist(err);
       err.message.should.equal('connect');
       done();
@@ -41,13 +41,13 @@ describe('#callMethod', function() {
   });
 
   it('give an error response', function(done) {
-    var socket = callMethod(callOptions, 'getInfo', null, function(err) {
+    var socket = callMethod(callOptions, 'getBlockChainInfo', null, function(err) {
       should.exist(err);
       err.message.should.equal('response');
       done();
     });
     socket.send = function(opts, callback) {
-      opts.method.should.equal('getInfo');
+      opts.method.should.equal('getBlockChainInfo');
       should.equal(opts.params, null);
       var response = {
         error: {
@@ -71,7 +71,7 @@ describe('#callMethod', function() {
       relayfee: 1000,
       errors: ''
     };
-    var socket = callMethod(callOptions, 'getInfo', null, function(err, data) {
+    var socket = callMethod(callOptions, 'getBlockChainInfo', null, function(err, data) {
       should.not.exist(err);
       data.should.deep.equal(expectedData);
       socket.close.callCount.should.equal(1);
@@ -79,7 +79,7 @@ describe('#callMethod', function() {
     });
     socket.close = sinon.stub();
     socket.send = function(opts, callback) {
-      opts.method.should.equal('getInfo');
+      opts.method.should.equal('getBlockChainInfo');
       should.equal(opts.params, null);
       var response = {
         error: null,

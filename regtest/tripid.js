@@ -461,9 +461,9 @@ describe('Bitcoind Functionality', function() {
     });
   });
 
-  describe('#getInfo', function() {
+  describe('#getBlockChainInfo', function() {
     it('will get information', function(done) {
-      tripid.getInfo(function(err, info) {
+      tripid.getBlockChainInfo(function(err, info) {
         if (err) {
           return done(err);
         }

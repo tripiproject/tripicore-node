@@ -685,28 +685,28 @@ describe('Tripi Service', function() {
 			tripid.tryAllInterval = 1;
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockchainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockchainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArg(0)
+					getBlockchainInfo: sinon.stub().callsArg(0)
 				}
 			});
 			tripid._tryAllClients(function(client, next) {
-				client.getInfo(next);
+				client.getBlockChainInfo(next);
 			}, function(err) {
 				if (err) {
 					return done(err);
 				}
-				tripid.nodes[0].client.getInfo.callCount.should.equal(1);
-				tripid.nodes[1].client.getInfo.callCount.should.equal(1);
-				tripid.nodes[2].client.getInfo.callCount.should.equal(1);
+				tripid.nodes[0].client.getBlockChainInfo.callCount.should.equal(1);
+				tripid.nodes[1].client.getBlockChainInfo.callCount.should.equal(1);
+				tripid.nodes[2].client.getBlockChainInfo.callCount.should.equal(1);
 				done();
 			});
 		});
@@ -715,28 +715,28 @@ describe('Tripi Service', function() {
 			tripid.tryAllInterval = 1;
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('2'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('2'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('3'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('3'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('1'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('1'))
 				}
 			});
 			tripid.nodesIndex = 2;
 			tripid._tryAllClients(function(client, next) {
-				client.getInfo(next);
+				client.getBlockChainInfo(next);
 			}, function(err) {
 				err.should.be.instanceOf(Error);
 				err.message.should.equal('3');
-				tripid.nodes[0].client.getInfo.callCount.should.equal(1);
-				tripid.nodes[1].client.getInfo.callCount.should.equal(1);
-				tripid.nodes[2].client.getInfo.callCount.should.equal(1);
+				tripid.nodes[0].client.getBlockChainInfo.callCount.should.equal(1);
+				tripid.nodes[1].client.getBlockChainInfo.callCount.should.equal(1);
+				tripid.nodes[2].client.getBlockChainInfo.callCount.should.equal(1);
 				tripid.nodesIndex.should.equal(2);
 				done();
 			});
@@ -746,21 +746,21 @@ describe('Tripi Service', function() {
 			tripid.tryAllInterval = 1;
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid.nodes.push({
 				client: {
-					getInfo: sinon.stub().callsArgWith(0, new Error('test'))
+					getBlockChainInfo: sinon.stub().callsArgWith(0, new Error('test'))
 				}
 			});
 			tripid._tryAllClients(function(client, next) {
-				client.getInfo(next);
+				client.getBlockChainInfo(next);
 			}, function(err) {
 				should.exist(err);
 				err.should.be.instanceOf(Error);
@@ -2365,7 +2365,7 @@ describe('Tripi Service', function() {
 				done();
 			});
 		});
-		it('will call client getInfo and give result', function(done) {
+		it('will call client getBlockChainInfo and give result', function(done) {
 			var tripid = new TripiService(baseConfig);
 			var getBlockchainInfo = sinon.stub().callsArgWith(0, null, {
 				result: {
@@ -5353,7 +5353,7 @@ describe('Tripi Service', function() {
 				done();
 			});
 		});
-		it('will call client getInfo and give result', function(done) {
+		it('will call client getBlockChainInfo and give result', function(done) {
 			var tripid = new TripiService(baseConfig);
 			var getBestBlockHash = sinon.stub().callsArgWith(0, null, {
 				result: '0c9d2f58e10d9089c8543f1a519023eef5f73e659258b1a433e8cc9296a42e72'
@@ -5433,25 +5433,25 @@ describe('Tripi Service', function() {
 		});
 	});
 
-	describe('#getInfo', function() {
+	describe('#getBlockChainInfo', function() {
 		it('will give rpc error', function(done) {
 			var tripid = new TripiService(baseConfig);
-			var getInfo = sinon.stub().callsArgWith(0, { message: 'error', code: -1 });
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, { message: 'error', code: -1 });
 			tripid.nodes.push({
 				client: {
-					getInfo: getInfo
+					getBlockChainInfo: getBlockChainInfo
 				}
 			});
-			tripid.getInfo(function(err) {
+			tripid.getBlockChainInfo(function(err) {
 				should.exist(err);
 				err.should.be.an.instanceof(errors.RPCError);
 				done();
 			});
 		});
-		it('will call client getInfo and give result', function(done) {
+		it('will call client getBlockChainInfo and give result', function(done) {
 			var tripid = new TripiService(baseConfig);
 			tripid.node.getNetworkName = sinon.stub().returns('testnet');
-			var getInfo = sinon.stub().callsArgWith(0, null, {
+			var getBlockChainInfo = sinon.stub().callsArgWith(0, null, {
 				result: {
 					"version": 140900,
 					"protocolversion": 70016,
@@ -5479,17 +5479,17 @@ describe('Tripi Service', function() {
 			tripid.getSubsidy = sinon.stub().callsArgWith(1, null, 400000000);
 			tripid.nodes.push({
 				client: {
-					getInfo: getInfo,
+					getBlockChainInfo: getBlockChainInfo,
 				},
 			});
 
-			tripid.getInfo(function(err, info) {
+			tripid.getBlockChainInfo(function(err, info) {
 				if (err) {
 					return done(err);
 				}
 
 				tripid.getSubsidy.callCount.should.equal(1);
-				tripid.client.getInfo.callCount.should.equal(1);
+				tripid.client.getBlockChainInfo.callCount.should.equal(1);
 
 				should.exist(info);
 				should.equal(info.version, 140900);

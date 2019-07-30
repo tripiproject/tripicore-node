@@ -78,7 +78,7 @@ describe('Bitcoin Cluster', function() {
         daemons.push(process);
 
         async.retry({times: 10, interval: 5000}, function(ready) {
-          client.getInfo(ready);
+          client.getBlockChainInfo(ready);
         }, next);
 
       });
